@@ -28,7 +28,7 @@ function handleClick(state) {
             }
 	dataJSON = JSON.stringify(data);
 	var post_rq = Request({
-	  url: "http://192.168.0.13/playground/mr_hubert.php?"+dataJSON,
+	  url: kodi_url+"?"+dataJSON,
 	  onComplete: function (response) {
 		notifications.notify({
 			text: 'Sending: '+url+' to: '+kodi_url
