@@ -1,10 +1,11 @@
 {
-  "title": "PlayIt On KODI",
+  "title": "PlayIt On Kodi",
   "name": "playitonkodi",
   "version": "1.0.0",
-  "description": "A basic add-on",
+  "description": "Send Video Links to Kodi / PlayIt",
   "main": "index.js",
   "author": "Willhelm",
+  "icon": "resource://@playitonkodi/icons/k64.png",
   "engines": {
     "firefox": ">=38.0a1",
     "fennec": ">=38.0a1"
