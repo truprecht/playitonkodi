@@ -31,7 +31,8 @@ function handleClick(state) {
 	  url: kodi_url+"?"+dataJSON,
 	  onComplete: function (response) {
 		notifications.notify({
-			text: 'Sending: '+url+' to: '+kodi_url
+			text: 'Sending: '+url+' to: '+kodi_url,
+			iconURL : "resource://@playitonkodi/icons/k32.png"
 		});
 		console.log(response.text );
 		console.log(kodi_url);
