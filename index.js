@@ -19,23 +19,21 @@ var button = buttons.ActionButton({
 function handleClick(state) {
 	url =  tabs.activeTab.url
 	kodi_url = 'http://'+preferences['kodi_ip']+':'+preferences['kodi_port']+'/PlayIt';
-	console.log(url);
 	data =  {    
 					"version":"1.1",
                     "method": "playHostedVideo",
-                    "id"    : '1',
+                    "id"    : "1",
                     "params": {"videoLink" : url}
             }
 	dataJSON = JSON.stringify(data);
 	var post_rq = Request({
-	  url: kodi_url+"?"+dataJSON,
+	  url: kodi_url,
+	  content: dataJSON,
 	  onComplete: function (response) {
 		notifications.notify({
 			text: 'Sending: '+url+' to: '+kodi_url,
 			iconURL : "resource://@playitonkodi/icons/k32.png"
 		});
-		console.log(response.text );
-		console.log(kodi_url);
 	  }
 	}).post();
 }
