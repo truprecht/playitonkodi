@@ -1,5 +1,8 @@
 #PlayIt On KODI
-This add-on sends links towards the PlayIt listener. It is not ompatible with Firefox on mobile divices. 
+This add-on sends links towards the PlayIt listener. 
+For more infos on Playit read the release notes in the [http://forum.kodi.tv/showthread.php?tid=118251](officialKODI forums).
+If Playit itself does not start up, a softlink like this might help:
+ln -s  ~/.kodi/temp/kodi.log  ~/.kodi/temp/xbmc.log
 
 ##Version 1.1.0 
 Added a context menu entry
