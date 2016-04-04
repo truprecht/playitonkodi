@@ -43,7 +43,7 @@ function handleClick(state) {
 
 var contextMenu = require("sdk/context-menu");
 var menuItem = contextMenu.Item({
-  label: "Send to Kodi",
+  label: "Send to KODI",
   context: contextMenu.SelectorContext("a[href]"),
   contentScript: 'self.on("click", function (node, data) {' +
                  '  console.log("Item clicked!: " + node.href);' +
