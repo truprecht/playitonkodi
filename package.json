@@ -1,7 +1,7 @@
 {
   "title": "PlayIt On Kodi",
   "name": "playitonkodi",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Send Video Links to Kodi / PlayIt",
   "main": "index.js",
   "author": "Willhelm",
@@ -11,23 +11,21 @@
     "fennec": ">=38.0a1"
   },
   "license": "GPLv2",
-  "preferences": [{
-        "name": "kodi_ip",
-        "title": "Kodi IP",
-        "description": "The IP of your Kodi Media Center",
-        "type": "string",
-        "value": "raspberry"
-    },
-    {
-	   "name": "kodi_port",
-        "title": "Kodi Port",
-        "description": "Port on which PlayIt is listening",
-        "type": "string",
-        "value": "8181" 
-    }
+  "preferences": [
+		{
+			"name": "kodi_ip",
+			"title": "Kodi IP",
+			"description": "The IP of your Kodi Media Center",
+			"type": "string",
+			"value": "raspberry"
+		},
+		
+		{
+		   "name": "kodi_port",
+			"title": "Kodi Port",
+			"description": "Port on which PlayIt is listening",
+			"type": "string",
+			"value": "8181" 
+		}
 	]
-  
-
-  
-  
 }

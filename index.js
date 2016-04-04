@@ -39,3 +39,41 @@ function handleClick(state) {
 }
 
 
+// adding context menu: 
+
+var contextMenu = require("sdk/context-menu");
+var menuItem = contextMenu.Item({
+  label: "Send to Kodi",
+  context: contextMenu.SelectorContext("a[href]"),
+  contentScript: 'self.on("click", function (node, data) {' +
+                 '  console.log("Item clicked!: " + node.href);' +
+                 '  self.postMessage(node.href);' +
+                 '});',
+  onMessage: function (myurl) {
+    mySendToKodiContextMenu(myurl);
+  }              
+});
+
+function mySendToKodiContextMenu(myurl) {
+    url =  myurl
+    kodi_url = 'http://'+preferences['kodi_ip']+':'+preferences['kodi_port']+'/PlayIt';
+    data =  {
+                    "version":"1.1",
+                    "method": "playHostedVideo",
+                    "id"    : "1",
+                    "params": {"videoLink" : url}
+            }
+    dataJSON = JSON.stringify(data);
+    var post_rq = Request({
+      url: kodi_url,
+      content: dataJSON,
+      onComplete: function (response) {
+        notifications.notify({
+            text: 'Sending: '+url+' to: '+kodi_url,
+            iconURL : "resource://@playitonkodi/icons/k32.png"
+        });
+      }
+    }).post();
+};
+
+
