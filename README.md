@@ -5,7 +5,7 @@ For more infos on Playit read the release notes in the [official KODI forums](ht
 If Playit itself does not start up, a softlink like this might help:
 ln -s  ~/.kodi/temp/kodi.log  ~/.kodi/temp/xbmc.log
 
-##Version 1.1.0 
+##Version 1.1.1 
 Added a context menu entry
 
 ##Version 1.0.0
