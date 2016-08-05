@@ -6,22 +6,22 @@ $(document).ready(function(){
   });
 
   timer = null;
-  save = function(){
-    chrome.storage.local.set({
-        kodi_url: $(".kodi-url").val(),
-        kodi_port: $(".kodi-port").val()
-      }, function() {
-        $(".status").html("Options were saved.");
-      }
-    );
-  }
 
   $(".kodi-url, .kodi-port").on("input", function(){
     $(".status").html("");
     if(timer != null){
       clearTimeout(timer);
     }
-    timer = setTimeout(save, 1000);
+    timer = setTimeout(
+      function(){
+        chrome.storage.local.set({
+            kodi_url: $(".kodi-url").val(),
+            kodi_port: $(".kodi-port").val()
+          }, function() {
+            $(".status").html("Options were saved.");
+          }
+        );
+      }, 1000);
   });
 
 });
