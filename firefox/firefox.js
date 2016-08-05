@@ -19,7 +19,7 @@ var button = buttons.ActionButton({
 function handleClick(state) {
 	url =  tabs.activeTab.url
 	kodi_url = 'http://'+preferences['kodi_ip']+':'+preferences['kodi_port']+'/PlayIt';
-	data =  {    
+	data =  {
 					"version":"1.1",
                     "method": "playHostedVideo",
                     "id"    : "1",
@@ -39,7 +39,7 @@ function handleClick(state) {
 }
 
 
-// adding context menu: 
+// adding context menu:
 
 var contextMenu = require("sdk/context-menu");
 var menuItem = contextMenu.Item({
@@ -51,7 +51,7 @@ var menuItem = contextMenu.Item({
                  '});',
   onMessage: function (myurl) {
     mySendToKodiContextMenu(myurl);
-  }              
+  }
 });
 
 function mySendToKodiContextMenu(myurl) {
@@ -68,12 +68,21 @@ function mySendToKodiContextMenu(myurl) {
       url: kodi_url,
       content: dataJSON,
       onComplete: function (response) {
+        if(response.status === 200){ // HTTP OK
+          if(response.json.result.status === "sucess"){ // url accepted by PlayIt
+            notificationText = 'Sending: '+url+' to: '+kodi_url;
+          }
+          else{ // PlayIt error
+            notificationText = response.json.result.message;
+          }
+        }
+        else{ // connection error
+          notificationText = 'Something went wrong, you should check the settings.';
+        }
         notifications.notify({
-            text: 'Sending: '+url+' to: '+kodi_url,
+            text: notificationText,
             iconURL : "resource://@playitonkodi/icons/k32.png"
         });
       }
     }).post();
 };
-
-
