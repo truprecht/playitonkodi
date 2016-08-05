@@ -6,13 +6,11 @@ $(document).ready(function(){
   });
 
   timer = null;
-  save =
 
   $(".kodi-url, .kodi-port").on("input", function(){
     $(".status").html("");
     if(timer != null){
       clearTimeout(timer);
-      timer = null;
     }
     timer = setTimeout(
       function(){
