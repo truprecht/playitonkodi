@@ -3,7 +3,13 @@
 
   "name": "PlayIt on Kodi",
   "description": "Pushes links to PlayIt listener on a local Kodi mediacenter",
-  "version": "0.1",
+  "version": "0.2",
+
+  "icons":{
+    "16": "icons/k16.png",
+    "32": "icons/k32.png",
+    "64": "icons/k64.png"
+  },
 
   "browser_action": {
     "default_icon": "icons/k64.png"
@@ -13,9 +19,13 @@
     "scripts": ["rsc/jquery.js", "chrome.js"]
   },
 
-  "options_page": "options/chrome.html",
+  "options_ui":{
+    "page": "options/chrome.html",
+    "chrome_style": true
+  },
 
   "permissions": [
+    "contextMenus",
     "activeTab",
     "tabs",
     "storage",
