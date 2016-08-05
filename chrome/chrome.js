@@ -13,11 +13,8 @@ sendRequest = function(link){
       method: "POST",
       data: datastring,
       success: function(response){
-        if(response.result.status == "error"){
+        if(response.result.status !== "success"){
           alert(response.result.message);
-        }
-        else{
-          alert("Sent request to " + kodi_url + ".");
         }
       },
       error: function(response){
