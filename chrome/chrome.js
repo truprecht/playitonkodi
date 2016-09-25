@@ -1,20 +1,25 @@
 sendRequest = function(link){
   chrome.storage.local.get(["kodi_url", "kodi_port"], function(storage){
-    kodi_url = "http://" + storage["kodi_url"] + ":" + storage["kodi_port"] + "/PlayIt";
-    datastring = JSON.stringify({
-      "version":"1.1",
-      "method": "playHostedVideo",
-      "id"    : "1",
-      "params": {"videoLink" : link}
-    });
+    kodi_url = "http://" + storage["kodi_url"] + ":" + storage["kodi_port"] + "/jsonrpc";
     $.ajax({
+      contentType: "application/json",
       url: kodi_url,
       traditional: true,
       method: "POST",
-      data: datastring,
+      data: JSON.stringify({
+        jsonrpc: "2.0",
+        id: "1",
+        method: "Addons.ExecuteAddon",
+        params:{
+          addonid: "plugin.video.playdat",
+          params: {
+            url: link
+          }
+        }
+      }),
       success: function(response){
-        if(response.result.status !== "success"){
-          alert(response.result.message);
+        if(response.result !== "OK"){
+          alert(response);
         }
       },
       error: function(response){

@@ -18,71 +18,55 @@ var button = buttons.ActionButton({
 
 function handleClick(state) {
 	url =  tabs.activeTab.url
-	kodi_url = 'http://'+preferences['kodi_ip']+':'+preferences['kodi_port']+'/PlayIt';
-	data =  {
-					"version":"1.1",
-                    "method": "playHostedVideo",
-                    "id"    : "1",
-                    "params": {"videoLink" : url}
-            }
-	dataJSON = JSON.stringify(data);
-	var post_rq = Request({
-	  url: kodi_url,
-	  content: dataJSON,
-	  onComplete: function (response) {
-		notifications.notify({
-			text: 'Sending: '+url+' to: '+kodi_url,
-			iconURL : "resource://@playitonkodi/icons/k32.png"
-		});
-	  }
-	}).post();
+  sendLink(url);
 }
 
-
 // adding context menu:
-
 var contextMenu = require("sdk/context-menu");
 var menuItem = contextMenu.Item({
   label: "Send to KODI",
   context: contextMenu.SelectorContext("a[href]"),
   contentScript: 'self.on("click", function (node, data) {' +
-                 '  console.log("Item clicked!: " + node.href);' +
                  '  self.postMessage(node.href);' +
                  '});',
   onMessage: function (myurl) {
-    mySendToKodiContextMenu(myurl);
+    sendLink(myurl);
   }
 });
 
-function mySendToKodiContextMenu(myurl) {
-    url =  myurl
-    kodi_url = 'http://'+preferences['kodi_ip']+':'+preferences['kodi_port']+'/PlayIt';
-    data =  {
-                    "version":"1.1",
-                    "method": "playHostedVideo",
-                    "id"    : "1",
-                    "params": {"videoLink" : url}
-            }
-    dataJSON = JSON.stringify(data);
-    var post_rq = Request({
-      url: kodi_url,
-      content: dataJSON,
-      onComplete: function (response) {
-        if(response.status === 200){ // HTTP OK
-          if(response.json.result.status === "sucess"){ // url accepted by PlayIt
-            notificationText = 'Sending: '+url+' to: '+kodi_url;
-          }
-          else{ // PlayIt error
-            notificationText = response.json.result.message;
-          }
+function sendLink(url){
+  console.log(url);
+  console.log('http://'+preferences['kodi_ip']+':'+preferences['kodi_port']+'/jsonrpc');
+  Request({
+    contentType: "application/json",
+    url: 'http://'+preferences['kodi_ip']+':'+preferences['kodi_port']+'/jsonrpc',
+    content: JSON.stringify({
+      jsonrpc: "2.0",
+      id: "1",
+      method: "Addons.ExecuteAddon",
+      params:{
+        addonid: "plugin.video.playdat",
+        params: {
+          url: url
         }
-        else{ // connection error
-          notificationText = 'Something went wrong, you should check the settings.';
-        }
-        notifications.notify({
-            text: notificationText,
-            iconURL : "resource://@playitonkodi/icons/k32.png"
-        });
       }
-    }).post();
-};
+    }),
+    onComplete: function (response) {
+      if(response.status === 200){ // HTTP OK
+        if(response.json.result === "OK"){ // rpc result ok
+          notificationText = 'Sending ' + url;
+        }
+        else{
+          notificationText = "Error in jsonrpc. Check your input.";
+        }
+      }
+      else{ // connection error
+        notificationText = 'Something went wrong, you should check the settings.';
+      }
+      notifications.notify({
+          text: notificationText,
+          iconURL : "resource://@playitonkodi/icons/k32.png"
+      });
+    }
+  }).post();
+}
